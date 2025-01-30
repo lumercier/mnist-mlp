@@ -138,34 +138,11 @@ Une fois le modèle entraîné avec les données existantes, il est utilisé pou
 
 Le modèle réussit ainsi à généraliser la classification des fruits sur la base des caractéristiques fournies.\
 \
-On peut imaginer combiner ce code avec une IA qui analyserait une photo, afin de détécter quels sont les fruits présents sur la photo.
+On peut imaginer combiner ce code avec une IA qui analyserait une photo, afin de détécter quels sont les fruits présents sur la photo.  
+&nbsp;  
+&nbsp;  
+&nbsp;  
+
+## Phase 2 : Construction d'un modèle MLP sur MNIST - étapes préliminaires
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Phase 2 : Construction d'un modèle MLP sur MNIST - étapes préliminaires
