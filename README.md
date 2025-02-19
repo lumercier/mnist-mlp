@@ -1,5 +1,5 @@
-# Classification de chiffres manuscrits (MNIST) avec un réseau de neurones (MLP)
-## Phase 1 : Classification de fruits avec un arbre de décision
+# Classification of handwritten numbers (MNIST) with a multilayer perceptron neural network (MLP)
+## Phase 1 : Fruit classification with a decision tree
 ### 1. et 2.
 De base, le script **_1_classification_fruits.py_** comporte une erreur.
 > ValueError: could not convert string to float: 'Rouge'
@@ -143,7 +143,7 @@ On peut imaginer combiner ce code avec une IA qui analyserait une photo, afin de
 &nbsp;  
 &nbsp;  
 
-## Phase 2 : Construction d'un modèle MLP sur MNIST - étapes préliminaires
+## Phase 2 : Building a MLP model on MNIST - preliminary steps
 ### 1. Executing the script
 Now, we run **_2_construire_mlp_mnist.py_** \
 \
@@ -241,20 +241,137 @@ Key hyperparameters :
 &nbsp; 
 
 ## Phase 3 : Training and evaluation of a MLP model on MNIST
+### 1. Code execution
+Now, we run **_3_entrainer_evaluer_mlp_mnist.py_** \
+\
+Once the script is executed, the output is :
+
+>  MLP Model created : MLPClassifier(hidden_layer_sizes=(50,), max_iter=10, random_state=42)  
+>  Model accuracy on test set : 96.45%  
+>  Some predictions and actual labels :  
+>  Image 1: Prediction = 8, Real = 8  
+>  Image 2: Prediction = 4, Real = 4  
+>  Image 3: Prediction = 8, Real = 8  
+>  Image 4: Prediction = 7, Real = 7  
+>  Image 5: Prediction = 7, Real = 7  
+>  Image 6: Prediction = 0, Real = 0  
+>  Image 7: Prediction = 6, Real = 6  
+>  Image 8: Prediction = 2, Real = 2  
+>  Image 9: Prediction = 7, Real = 7  
+>  Image 10: Prediction = 4, Real = 4  
+
+&nbsp;  
+
+### 2. Outputs analysis
+
+The training take around 25-30 seconds to complete.  \
+The model accuracy indicates the percentage of images correctly classified by the MLPClassifier. Here it's **96.45 %**.
+
+To improve the accuracy, we can : 
+- Increase *_max_iter_* to allow better learning.
+- Add more neurons (*_hidden_layer_sizes_*) to capture more patterns.
+- Try another algorithm (solver='adam' or 'sgd') to optimize learning.
+#### We are going to try this in the next step.
+&nbsp;  
+This MLP model didn't make mistakes on the 10 example he gave us at he end of the script.
+Let's try to see with 100 examples :
+```python
+mlp = MLPClassifier(hidden_layer_sizes=(50,), max_iter=20, random_state=42)
+```
+>  Image 14: Prediction = 1, Real = 2
+
+So the examples are really a good representation of the accuracy percentage, because on my 100 examples, only 96 were right.
+
+&nbsp;  
 
 
+### 3. Impact of inputs on different outputs
+- *_max_iter_* (= 10 by default)
+```python
+mlp = MLPClassifier(hidden_layer_sizes=(50,), max_iter=20, random_state=42)
+```
+↳ Execution time : approx. 45 seconds
+>  Model accuracy on test set : 96.89%
+```python
+mlp = MLPClassifier(hidden_layer_sizes=(50,), max_iter=50, random_state=42)
+```
+↳ Execution time : approx. 2 minutes
+>  Model accuracy on test set : 96.86%
+
+#### By increasing *_max_iter_*, the execution time is multiplied exponentially while the accuracy is increasing very little. 
+
+&nbsp;  
+&nbsp;  
+
+- *_hidden_layer_sizes_* (= 50 by default)
+```python
+mlp = MLPClassifier(hidden_layer_sizes=(100,), max_iter=20, random_state=42)
+```
+↳ Execution time : approx. 45 seconds
+>  Model accuracy on test set : 97.46%
+
+```python
+mlp = MLPClassifier(hidden_layer_sizes=(100, 50), max_iter=20, random_state=42)
+```
+↳ Execution time : approx. 1 minute
+>  Model accuracy on test set : 97.44%
+
+#### Increasing the size of the hidden layer significantly improve the accuracy, while not slowing down the learning time.
+#### But adding double hidden layers makes accuracy going down.
+
+&nbsp;  
+&nbsp;  
+
+- *_test_size_* (= 0.2 by default)
+```python
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
+```
+↳ Execution time : approx. 47
+>  Model accuracy on test set : 97.15%
+
+```python
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
+```
+↳ Execution time : approx. 1 minute
+>  Model accuracy on test set : 97.27%
+
+#### Table of results
+| test_size | % learning data | % test data | effect                                                 |
+|-----------|-----------------|-------------|--------------------------------------------------------|
+| 0.1       | 90%             | 10%         | More data for learning, but less reliable test.        |
+| 0.4       | 60%             | 40%         | Less data for learning, possible decrease in accuracy. |
 
 
+&nbsp;  
+&nbsp;  
 
+## PHASE 4 : Improving the MLP model's precision
+### 1. Code execution
+Now, we run **_4_ameliorer_precision_mlp_mnist.py_** \
+At the end of the execution, it shows up a warning :
+>  ConvergenceWarning: Stochastic Optimizer: Maximum iterations (10) reached and the optimization hasn't converged yet.
 
+This means that the MLP moddel didn't fully converge after the 10 defined iterations, because the number of iteration is too low (max_iter=10).
+&nbsp;  
 
+### 2. Outputs analysis
+>  --- Exploration of different architectures ---  
+>  Accuracy with an hidden layer of 100 neurons  : 97.04%  
+>  Accuracy with an 2 hidden layers (100, 50 neurons) : 97.06%  
+>    
+>  --- Introduction to regularization ---  
+>  Accuracy with L2 regularization (alpha=0.001) : 97.11%  
+>    
+>  --- Exploration of different optimization algorithms ---  
+>  Accuracy with Adam : 97.04%  
+>  Accuracy wit SGD (learning_rate=0.01) : 95.34%  
 
+- We notice that the model architecture (neurons and layers) has almost no impact on accuracy.
+- L2 regularization improve accuracy by limiting overfitting. The idea is to make the model less dependent on specific data variations.
+- Adam is almost 2% more accurate than SGD.
 
+The last point can be explain by the fact that *_max_iter=10_* is very low, so SGD didn’t have time to converge well, whereas Adam compensated with his dynamic adaptation.
+>  "Adam (Adaptive Moment Estimation) algorithm automatically adjusts the learning rate for each network weight over the course of iterations".
 
-
-
-
-
-
-
-
+&nbsp;  
+### 3. Experimentation with inputs
