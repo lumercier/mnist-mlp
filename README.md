@@ -144,5 +144,117 @@ On peut imaginer combiner ce code avec une IA qui analyserait une photo, afin de
 &nbsp;  
 
 ## Phase 2 : Construction d'un modèle MLP sur MNIST - étapes préliminaires
+### 1. Executing the script
+Now, we run **_2_construire_mlp_mnist.py_** \
+\
+Once the script is executed, the output is :
+>  Forme des données d'images (X) : (70000, 784)  
+>  Forme des étiquettes (y) : (70000,)  
+>  Modèle MLP simple créé : MLPClassifier(hidden_layer_sizes=(50,), max_iter=10)  
+>  Modèle MLP à deux couches créé : MLPClassifier(hidden_layer_sizes=(100, 50), max_iter=10)  
+>  MLP avec optimiseur Adam : MLPClassifier(hidden_layer_sizes=(50,), max_iter=10)  
+>  MLP avec optimiseur SGD : MLPClassifier(hidden_layer_sizes=(50,), learning_rate_init=0.01, max_iter=10, solver='sgd')  
+
+&nbsp; 
+### 2. Checking MNIST datas
+The **MNIST database** is a large database of handwritten digits, which contains 60,000 training images and 10,000 testing images (each is a 28x28 pixel bounding box and anti-aliased, with grayscale levels). \
+It is commonly used for training various image processing systems (and so in the field of machine learning). \
+&nbsp;  
+First, we import libraries then load the **MNIST database**.
+```python
+from sklearn.datasets import fetch_openml
+from sklearn.neural_network import MLPClassifier
+import numpy as np
+
+mnist = fetch_openml('mnist_784', version=1)
+X = mnist.data
+y = mnist.target
+```
+
+We print data and label shapes
+```python
+print("Forme des données d'images (X) :", X.shape)
+print("Forme des étiquettes (y) :", y.shape)
+```
+_X.shape → (70000, 784)_ : 70 000 images of 784 pixels (28x28). \
+_y.shape → (70000,)_ : 70 000 labels, one for each image.
+
+&nbsp; 
+
+Then, data is being prepared
+```python
+X = X / 255.0
+```
+Scaling: Pixels have values between 0 and 255 (grayscale). \
+We divide it by 255 to normalize between 0 and 1. \
+Why? Better standardization accelerates learning and improves accuracy.
+
+&nbsp; 
+
+Then we build a first MLP (1 single hidden layer of 50 neurons)
+```python
+mlp_simple = MLPClassifier(hidden_layer_sizes=(50,), max_iter=10)
+print("Modèle MLP simple créé :", mlp_simple)
+```
+And a second MLP (2 hidden layers, the first with 100 neurons and the second one with 50 neurons).
+```python
+mlp_deux_couches = MLPClassifier(hidden_layer_sizes=(100, 50), max_iter=10)
+print("Modèle MLP à deux couches créé :", mlp_deux_couches)
+```
+
+&nbsp; 
+
+Finally, we try 2 different optimization algorithms.  \
+With Adam
+```python
+mlp_adam = MLPClassifier(hidden_layer_sizes=(50,), solver='adam', max_iter=10)
+print("MLP avec optimiseur Adam :", mlp_adam)
+```
+
+With SGD
+```python
+mlp_sgd = MLPClassifier(hidden_layer_sizes=(50,), solver='sgd', learning_rate_init=0.01, max_iter=10)
+print("MLP avec optimiseur SGD :", mlp_sgd)
+```
+
+&nbsp; 
+
+#### The script does not perform a full training. It focuses on creating and configuring different MLP models. *_max_iter=10_* is too low to perform a good learning.
+
+&nbsp; 
+
+### 3. Steps required to build an MLP model with scikit-learn and hyperparameters
+Building an MLP with Scikit-Learn requires :
+- Load and prepare the data.
+- Divide into train/test.
+- Create a MLP model (MLPClassifier).
+- Train (.fit())
+- Evaluate (.score())
+
+Key hyperparameters :
+- *_hidden_layer_sizes_* → Number of neurons/layers.
+- *_max_iter_* → Number of learning iterations.
+- *_solver_* → Optimization algorithm.
+- *_learning_rate_init_* → Learning rate.
+- *_activation_* → Function of activation of neurons.
+
+&nbsp; 
+
+## Phase 3 : Training and evaluation of a MLP model on MNIST
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
