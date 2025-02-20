@@ -492,12 +492,36 @@ To avoide these problems increasing the size of a neural network, the solution m
 &nbsp;  
 
 ## PHASE 5: Model Prediction Visualization
-### 1. Code execution
-IMAGE
-IMAGE
-> Probabilités prédites pour la première image de test :  
+### 1. and 2. Code execution + visualization
+When we execute **5_visualiser_prediction_mlp_mnist**, the output is :
+
+> Predicted probabilities for the first test image :  
 > [5.04014808e-08 2.02329179e-11 3.02104129e-06 2.40446169e-04 7.16865026e-11 8.37314984e-07 2.66805695e-11 9.93136297e-09 9.99755047e-01 5.87678661e-07]  
 > 
-> Classes prédites (les 20 premières) : [8 4 8 7 7 0 6 2 7 4 3 9 9 8 2 5 9 1 7 8]  
-> Classes réelles     (les 20 premières) : [8 4 8 7 7 0 6 2 7 4 3 9 9 8 2 5 9 1 7 8]  
+> Predicted (frist 20) : [8 4 8 7 7 0 6 2 7 4 3 9 9 8 2 5 9 1 7 8]  
+> Real  (first 20) : [8 4 8 7 7 0 6 2 7 4 3 9 9 8 2 5 9 1 7 8]  
 
+&nbsp;  
+
+![Visualization](images/phase5.png)
+
+The model correctly predicted the 20 first numbers.  \
+A number can be wrong if it is poorly written, especially between 1 and 7 which can be very similar.
+
+&nbsp;  
+
+![Confusion Matrix](images/phase5-table.png)
+
+**Confusion Matrix**
+- Each columns represents the predicted number form 0 to 9.
+- Each lines represents the real number form 0 to 9.
+- Each values in the matrix represents the accuracy (0 is 0% and 1 is 100%).
+- The fact that the high values are on the diagonals means that the predictions are correct.
+- We can visualize that the most commun errors are :
+    - Predict 3 while the real number is 8 
+    - Predict 9 while the real number is 7 
+    - Predict 9 while the real number is 4
+
+&nbsp;  
+
+### 3. Modifying and expermations with this model
