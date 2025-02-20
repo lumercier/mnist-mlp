@@ -532,11 +532,13 @@ The most effective model we found was with the **LBFGS solver**, 3 hidden layers
 mlp_lbfgs = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=400, solver='lbfgs', random_state=42)
 ```
 
-IMAGE
+![Best Matrix](images/matrix-best.png)
+
+&nbsp;  
 
 The less effective model was with the **SGD solver** and *_learning_rate=1_*.
 ```python
-mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=10, solver='sgd', learning_rate_init=1, random_state=42)
+mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=40, solver='sgd', learning_rate_init=1, random_state=42)
 ```
 
 IMAGE
