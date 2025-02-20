@@ -389,6 +389,8 @@ Theoretically, it is **possible to add as many layers as we want.**  \
 But in practice, adding too many will increase exponentially the training time, and can cause an unstable or blocked learning.  \
 To avoide these problems increasing the size of a neural network, the solution may be to use regularization methods.
 
+&nbsp;  
+
 - **L2 Regularization**
 
   - alpha=0.001
@@ -426,5 +428,28 @@ To avoide these problems increasing the size of a neural network, the solution m
    ```
    > Accuracy with L2 regularization (alpha=10) : 87.09%
 
+    #### Accuracy decreases when alpha increases.
 
-#### Accuracy decreases when alpha increases.
+&nbsp;  
+
+- **Optimiaztion**
+
+  - SGD optimizer
+  
+  By changing *_learning_rate_init_* values, we can observe the impact on accuracy.
+   ```python
+   mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=10, solver='sgd', learning_rate_init=0.01, random_state=42)
+   ```
+   > Accuracy wit SGD (learning_rate=0.01) : 96.87%
+
+   ```python
+   mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=10, solver='sgd', learning_rate_init=0.1, random_state=42)
+   ```
+   > Accuracy wit SGD (learning_rate=0.1) : 97.51%
+
+   ```python
+   mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=1, solver='sgd', learning_rate_init=1, random_state=42)
+   ```
+   > Accuracy wit SGD (learning_rate=1) : 9.59%
+
+    #### Accuracy increase if learning_rate increase up to 0.1. Then the accuracy drops more and more.
