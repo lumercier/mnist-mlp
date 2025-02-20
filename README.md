@@ -448,7 +448,7 @@ To avoide these problems increasing the size of a neural network, the solution m
    > Accuracy with SGD (learning_rate=0.1) : 97.51%
 
    ```python
-   mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=1, solver='sgd', learning_rate_init=1, random_state=42)
+   mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=10, solver='sgd', learning_rate_init=1, random_state=42)
    ```
    > Accuracy with SGD (learning_rate=1) : 9.59%
 
@@ -525,3 +525,18 @@ A number can be wrong if it is poorly written, especially between 1 and 7 which 
 &nbsp;  
 
 ### 3. Modifying and expermations with this model
+
+Let’s take our results from the previous phase.  \
+The most effective model we found was with the **LBFGS solver**, 3 hidden layers and 400 iterations.
+```python
+mlp_lbfgs = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=400, solver='lbfgs', random_state=42)
+```
+
+IMAGE
+
+The less effective model was with the **SGD solver** and *_learning_rate=1_*.
+```python
+mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=10, solver='sgd', learning_rate_init=1, random_state=42)
+```
+
+IMAGE
