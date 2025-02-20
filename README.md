@@ -541,4 +541,6 @@ The less effective model was with the **SGD solver** and *_learning_rate=1_*.
 mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=40, solver='sgd', learning_rate_init=1, random_state=42)
 ```
 
-IMAGE
+![Worst Matrix](images/matrix-worst.png)
+
+The matrix means that the model is poorly trained : it predicts 7 for every numbers.
