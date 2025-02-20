@@ -434,22 +434,70 @@ To avoide these problems increasing the size of a neural network, the solution m
 
 - **Optimiaztion**
 
-  - SGD optimizer
+  - **SGD optimizer**
   
   By changing *_learning_rate_init_* values, we can observe the impact on accuracy.
    ```python
    mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=10, solver='sgd', learning_rate_init=0.01, random_state=42)
    ```
-   > Accuracy wit SGD (learning_rate=0.01) : 96.87%
+   > Accuracy with SGD (learning_rate=0.01) : 96.87%
 
    ```python
    mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=10, solver='sgd', learning_rate_init=0.1, random_state=42)
    ```
-   > Accuracy wit SGD (learning_rate=0.1) : 97.51%
+   > Accuracy with SGD (learning_rate=0.1) : 97.51%
 
    ```python
    mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=1, solver='sgd', learning_rate_init=1, random_state=42)
    ```
-   > Accuracy wit SGD (learning_rate=1) : 9.59%
+   > Accuracy with SGD (learning_rate=1) : 9.59%
 
     #### Accuracy increase if learning_rate increase up to 0.1. Then the accuracy drops more and more.
+
+   &nbsp;  
+
+  - **Other optimizers**
+    
+  Scikit-learn offical documentation about MLPClassifier :
+    >  **solver{‘lbfgs’, ‘sgd’, ‘adam’}**
+    > * ‘lbfgs’ is an optimizer in the family of quasi-Newton methods.
+    > * sgd’ refers to stochastic gradient descent.
+    > * ‘adam’ refers to a stochastic gradient-based optimizer proposed by Kingma, Diederik, and Jimmy Ba
+
+
+   Here is the code to try with the **lbfgs** solver.
+    ```python
+  mlp_lbfgs = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=40, solver='lbfgs', random_state=42)
+  mlp_lbfgs.fit(X_train, y_train)
+  accuracy_lbfgs = accuracy_score(y_test, mlp_lbfgs.predict(X_test))
+  print(f"Précision avec LBFGS : {accuracy_lbfgs * 100:.2f}%")
+   ```
+  > Accuracy wiht LBFGS (learning_rate=1) : 91.73%
+  
+  #### Lbfgs solver is less suitable for large datasets (as described in the official documentation).
+
+   &nbsp;  
+
+  - **Number of iteration**
+
+   From max_iter=40 to 400 (x10).
+    ```python
+  mlp_lbfgs = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=400, solver='lbfgs', random_state=42)
+   ```
+  > Accuracy wiht LBFGS (learning_rate=1) : 97.36%
+
+  #### The number of iterations has a significant impact on the precision.
+
+&nbsp;  
+&nbsp;  
+
+## PHASE 5: Model Prediction Visualization
+### 1. Code execution
+IMAGE
+IMAGE
+> Probabilités prédites pour la première image de test :  
+> [5.04014808e-08 2.02329179e-11 3.02104129e-06 2.40446169e-04 7.16865026e-11 8.37314984e-07 2.66805695e-11 9.93136297e-09 9.99755047e-01 5.87678661e-07]  
+> 
+> Classes prédites (les 20 premières) : [8 4 8 7 7 0 6 2 7 4 3 9 9 8 2 5 9 1 7 8]  
+> Classes réelles     (les 20 premières) : [8 4 8 7 7 0 6 2 7 4 3 9 9 8 2 5 9 1 7 8]  
+
