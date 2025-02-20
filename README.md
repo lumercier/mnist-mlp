@@ -543,4 +543,18 @@ mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=40, solver='s
 
 ![Worst Matrix](images/matrix-worst.png)
 
-The matrix means that the model is poorly trained : it predicts 7 for every numbers.
+This matrix means that the model is poorly trained : it predicts 7 for every numbers.
+
+&nbsp;  
+
+We can modify the for loop to print 20 pictures instead of only 10.
+```python
+plt.figure(figsize=(20, 8))
+for index in range(20):
+    plt.subplot(5, 5, index + 1)
+    plt.imshow(X_test.iloc[index].values.reshape(28, 28), cmap=plt.cm.gray) # Accès aux valeurs NumPy
+    plt.title(f"Prédit : {y_test_pred[index]}")
+    plt.axis("off")
+plt.tight_layout()
+plt.show()
+```
