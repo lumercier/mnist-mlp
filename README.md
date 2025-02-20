@@ -375,3 +375,56 @@ The last point can be explain by the fact that *_max_iter=10_* is very low, so S
 
 &nbsp;  
 ### 3. Experimentation with inputs
+- **Neurons architecture**
+
+Let's try with 3 layers of 128, 64 and 32 neurons.
+```python
+mlp_multi = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=20, random_state=42)
+```
+>  Accuracy with an 2 hidden layers ((128, 64, 32 neurons) : 97.52%
+
+Adding a new layer increase accuracy but require more time and ressources. For MNIST, a MLP with 2-3 hidden layers and 100-300 neurons per layer is usually sufficient.
+
+Theoretically, it is **possible to add as many layers as we want.**  \
+But in practice, adding too many will increase exponentially the training time, and can cause an unstable or blocked learning.  \
+To avoide these problems increasing the size of a neural network, the solution may be to use regularization methods.
+
+- **L2 Regularization**
+
+  - alpha=0.001
+
+   ```python
+   mlp_regularized = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=10, alpha=0.001, random_state=42)
+   ```
+   > Accuracy with L2 regularization (alpha=0.001) : 97.01%
+
+  - alpha=0.01
+
+   ```python
+   mlp_regularized = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=10, alpha=0.01, random_state=42)
+   ```
+   > Accuracy with L2 regularization (alpha=0.01) : 96.95%
+
+   - alpha=0.1
+
+   ```python
+   mlp_regularized = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=10, alpha=0.1, random_state=42)
+   ```
+   > Accuracy with L2 regularization (alpha=0.1) : 96.71%
+
+  - alpha=1
+
+   ```python
+   mlp_regularized = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=10, alpha=1, random_state=42)
+   ```
+   > Accuracy with L2 regularization (alpha=1) : 95.59%
+
+   - alpha=10
+
+   ```python
+   mlp_regularized = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=10, alpha=10, random_state=42)
+   ```
+   > Accuracy with L2 regularization (alpha=10) : 87.09%
+
+
+#### Accuracy decreases when alpha increases.
