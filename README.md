@@ -1,27 +1,27 @@
 # Classification of handwritten numbers (MNIST) with a multilayer perceptron neural network (MLP)
 ## Phase 1 : Fruit classification with a decision tree
-### 1. et 2.
-De base, le script **_1_classification_fruits.py_** comporte une erreur.
+### 1. and 2. Code execution + understanding
+After running the script **_1_classification_fruits.py_**, it returns an error.
 > ValueError: could not convert string to float: 'Rouge'
 
-Cela vient du fait que Scikit-learn ne peut pas traiter des chaînes de caractères comme "Rouge" ou "Ronde".\
-Il faut convertir ces valeurs en nombres avant d'entraîner le modèle, grâce aux bibliothèques suivantes :
+This is due to the fact that Scikit-learn cannot handle strings like "Red" or "Round".  \
+These values must be converted to numbers before the model is trained, using the following libraries :
 ```python
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 ```
-On applique OneHotEncoder aux deux colonnes (couleur et forme).
+Then OneHotEncoder is applied on the 2 columns (color and shape).
 
 ```python
 encoder = ColumnTransformer(
-    transformers=[('encoder', OneHotEncoder(), [0, 1])], # Appliquer OneHotEncoder aux colonnes 0 et 1 (couleur et forme)
-    remainder='passthrough'  # Laisser les autres colonnes inchangées (s'il y en avait)
+    transformers=[('encoder', OneHotEncoder(), [0, 1])], # Apply OneHotEncoder
+    remainder='passthrough'  # If there is other columns, don't encode them.
 )
 ```
 
 &nbsp;  
 
-Voici donc le script fonctionnel :
+So here is the functional script :
 ```python
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import OneHotEncoder
@@ -66,15 +66,15 @@ for i in range(len(nouveaux_fruits)):
     print(f"Un fruit {nouveaux_fruits[i][0]} et {nouveaux_fruits[i][1]} est prédit comme étant un(e) : {predictions[i]}")
 
 ```
-Grâce à ce code, on obtient :
+Once the script is executed, the output is :
 > Prédictions pour les nouveaux fruits :  
 > Un fruit Rouge et Ronde est prédit comme étant un(e) : Pomme  
 > Un fruit Jaune et Allongée est prédit comme étant un(e) : Banane  
 > Un fruit Vert et Ronde est prédit comme étant un(e) : Pomme
 
 &nbsp;  
-### 3. Modification des données
-En modifiant les caractéristiques des nouveaux_fruits
+### 3. Data modification
+By modifying *_nouveaux_fruits_* input parameters :
 ```python
 nouveaux_fruits = [
     ["Rouge", "Ronde"],
@@ -85,7 +85,7 @@ nouveaux_fruits = [
     ["Orange", "Allongée"]
 ]
 ```
-On obtient
+We get :
 > Prédictions pour les nouveaux fruits :  
 > Un fruit Rouge et Ronde est prédit comme étant un(e) : Pomme  
 > Un fruit Jaune et Allongée est prédit comme étant un(e) : Banane  
@@ -95,7 +95,7 @@ On obtient
 > Un fruit Orange et Allongée est prédit comme étant un(e) : Orange
 
 &nbsp;   
-En ajoutant des attributs et etiquettes
+By adding attributes and labels :
 ```python
 attributs = [
     ...
@@ -104,7 +104,7 @@ attributs = [
 ]
 etiquettes = [..., "Myrtille", "Date"]
 ```
-Puis en rajoutant de nouveaux fruits :
+Then after adding new fruits :
 ```python
 nouveaux_fruits = [
     ...
@@ -112,7 +112,7 @@ nouveaux_fruits = [
     ["Marron", "Allongée"]
 ]
 ```
-On obtient
+The result is :
 >  Prédictions pour les nouveaux fruits :  
 >  Un fruit Rouge et Ronde est prédit comme étant un(e) : Pomme  
 >  Un fruit Jaune et Allongée est prédit comme étant un(e) : Banane  
@@ -124,21 +124,21 @@ On obtient
 >  Un fruit Marron et Allongée est prédit comme étant un(e) : Date  
 
 &nbsp; 
-### 4. Résumé
+### 4. Summary
 
-Ce code entraîne un modèle d'arbre de décision pour classifier des fruits en fonction de leur couleur et forme.\
-On lui donne des _attributs_ (par exemple *Jaune*, *Allongée*), auquels on associé une _étiquette_ (exemple : *Banane*).\
-Comme les arbres de décision ne peuvent pas traiter du texte, le code va convertir ce texte en variables binaires (0 et 1).\
+This code train a decision tree model to classify fruits according to their colour and shape.\
+It needs _attributes_ (for example *Yellow*, *Elongated*), which are associated with a _label_ (example : *Banana*).\
+Since decision trees cannot handle text, the code will convert this text into binary variables (0 and 1).\
 \
-Une fois le modèle entraîné avec les données existantes, il est utilisé pour prédire le type de fruit en fonction de nouvelles entrées, ici _nouveaux_fruits_
+**Once the model has been trained with existing data, it is used to predict the type of fruit based on new inputs, here _nouveaux_fruits_**
 
-* Un fruit Rouge et Ronde est classé comme une Pomme.
-* Un fruit Jaune et Allongée est classé comme une Banane.
-* Un fruit Orange et Ronde est classé comme une Orange.
+* A red and round fruit is classified as an Apple.
+* A yellow and elongated fruit is classified as a Banana.
+* An orange abd round fruit is classified as an Orange.
 
-Le modèle réussit ainsi à généraliser la classification des fruits sur la base des caractéristiques fournies.\
+The model is able to generalize the classification of fruits based on the provided characteristics.\
 \
-On peut imaginer combiner ce code avec une IA qui analyserait une photo, afin de détécter quels sont les fruits présents sur la photo.  
+**One can imagine combining this code with an AI that would analyze a photo, in order to detect which fruits are present on the photo.**    
 &nbsp;  
 &nbsp;  
 &nbsp;  
@@ -541,7 +541,7 @@ The less effective model was with the **SGD solver** and *_learning_rate=1_*.
 mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=40, solver='sgd', learning_rate_init=1, random_state=42)
 ```
 
-<img src="images/matrix-worst.png" alt=" Worst Confusion Matrix" width="500"/>
+<img src="images/matrix-worst.png" alt="Worst Confusion Matrix" width="500"/>
 
 This matrix means that the model is poorly trained : it predicts 7 for every numbers.
 
@@ -571,7 +571,26 @@ model = MLPClassifier(hidden_layer_sizes=(20,), max_iter=10, solver='lbfgs', ran
 ```
 
 <img src="images/number-error.png" alt="Numbers with errors" width="800"/>
-<img src="images/matrix-average.png" alt=" Worst Confusion Matrix" width="500"/>
+<img src="images/matrix-average.png" alt="Average Confusion Matrix" width="500"/>
 
-As these images show, there are several errors in the predictions.  \
-<img src="images/Error8.png" alt=" Worst Confusion Matrix" width="100"/>
+As these images show, there are several errors in the predictions. Let’s take for example these 2 errors :  \
+<img src="images/Error8.png" alt="Error" width="100"/>
+<img src="images/Error9.png" alt="Error" width="100"/>
+
+- For the first prediction, we can imagine that the curved shape of the number 3 makes our model to detect the number 8.
+- For the second prediction, of the numbers 9 and 4 are similar : a loop with a vertical line on the bottom.
+
+&nbsp;  
+&nbsp;  
+
+## Conclusion
+
+**This project allowed me to acquire key skills in machine learning by following a structured process from data loading to result analysis.**
+
+**I learned how to handle and prepare the MNIST dataset, understanding the importance of normalization and data splitting for reliable evaluation. Building a neural network (MLP) helped me explore its architecture and the impact of hyperparameters on performance.**
+
+**Training the model showed me how to optimize learning and adjust the number of iterations. I then evaluated its accuracy on a test set, highlighting the importance of assessing its generalization ability.**
+
+**Finally, error analysis, using the confusion matrix, allowed me to identify the model’s weaknesses and explore possible improvements.**
+
+**In summary, this project gave me a solid understanding of the machine learning classification process and its challenges.**
