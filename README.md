@@ -498,19 +498,19 @@ When we execute **5_visualiser_prediction_mlp_mnist**, the output is :
 > Predicted probabilities for the first test image :  
 > [5.04014808e-08 2.02329179e-11 3.02104129e-06 2.40446169e-04 7.16865026e-11 8.37314984e-07 2.66805695e-11 9.93136297e-09 9.99755047e-01 5.87678661e-07]  
 > 
-> Predicted (frist 20) : [8 4 8 7 7 0 6 2 7 4 3 9 9 8 2 5 9 1 7 8]  
-> Real  (first 20) : [8 4 8 7 7 0 6 2 7 4 3 9 9 8 2 5 9 1 7 8]  
+> Predicted : [8 4 8 7 7 0 6 2 7 4 3 9 9 8 2 5 9 1 7 8]  
+> Real : [8 4 8 7 7 0 6 2 7 4 3 9 9 8 2 5 9 1 7 8]  
 
 &nbsp;  
 
-![Visualization](images/phase5.png)
+<img src="images/phase5.png" alt="Numbers" width="800"/>
 
 The model correctly predicted the 20 first numbers.  \
 A number can be wrong if it is poorly written, especially between 1 and 7 which can be very similar.
 
 &nbsp;  
 
-![Confusion Matrix](images/phase5-table.png)
+<img src="images/phase5-table.png" alt="Confusion Matrix" width="500"/>
 
 **Confusion Matrix**
 - Each columns represents the predicted number form 0 to 9.
@@ -532,7 +532,7 @@ The most effective model we found was with the **LBFGS solver**, 3 hidden layers
 mlp_lbfgs = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=400, solver='lbfgs', random_state=42)
 ```
 
-![Best Matrix](images/matrix-best.png)
+<img src="images/matrix-best.png" alt="Best Confusion Matrix" width="500"/>
 
 &nbsp;  
 
@@ -541,7 +541,7 @@ The less effective model was with the **SGD solver** and *_learning_rate=1_*.
 mlp_sgd = MLPClassifier(hidden_layer_sizes=(128, 64, 32), max_iter=40, solver='sgd', learning_rate_init=1, random_state=42)
 ```
 
-![Worst Matrix](images/matrix-worst.png)
+<img src="images/matrix-worst.png" alt=" Worst Confusion Matrix" width="500"/>
 
 This matrix means that the model is poorly trained : it predicts 7 for every numbers.
 
@@ -559,7 +559,19 @@ plt.tight_layout()
 plt.show()
 ```
 
-![20 numbers](images/number-20.png)
+<img src="images/number-20.png" alt="Numbers" width="800"/>
 
 There is no error on these 20 number.  \
 We need a less efficient model to be able to analyze an error.
+
+&nbsp;  
+By reducing the number of neurons layers and iterations, the accuracy is very average (around 78%).
+```python
+model = MLPClassifier(hidden_layer_sizes=(20,), max_iter=10, solver='lbfgs', random_state=42)
+```
+
+<img src="images/number-error.png" alt="Numbers with errors" width="800"/>
+<img src="images/matrix-average.png" alt=" Worst Confusion Matrix" width="500"/>
+
+As these images show, there are several errors in the predictions.  \
+<img src="images/Error8.png" alt=" Worst Confusion Matrix" width="100"/>
